@@ -13,7 +13,17 @@ type Calculator struct {
 	operand []float32
 }
 
-func (calc Calculator) calculator() float32 {
+// __init__ sort of.
+func NewCalculator(action string) *Calculator {
+	var operand []float32
+	calculator := Calculator{
+		action:  action,
+		operand: operand,
+	}
+	return &calculator
+}
+
+func (calc Calculator) calculate() float32 {
 	var result float32
 	switch calc.action {
 	case "add":
@@ -98,6 +108,7 @@ func main() {
 		}
 
 		fmt.Printf("hmm, i see you wanna %v.\n", operation)
+		calculator := NewCalculator(operation)
 
 		fmt.Printf("How many numbers would you like to %v : ", operation)
 		input_, _ := reader.ReadString('\n')
@@ -114,8 +125,6 @@ func main() {
 			}
 		}
 
-		var operand []float32
-
 		for i := 0; i < int(iterate); i++ {
 			fmt.Printf("Enter input %d : ", i+1)
 			input_, _ = reader.ReadString('\n')
@@ -129,9 +138,9 @@ func main() {
 				input_, _ := reader.ReadString('\n')
 				aFloat, err_ = strconv.ParseFloat(strings.TrimSpace(input_), 64)
 			}
-			operand = append(operand, float32(aFloat))
+			calculator.operand = append(calculator.operand, float32(aFloat))
 		}
-		result := Calculator{operation, operand}.calculator()
+		result := calculator.calculate()
 		fmt.Println("result is : ", result)
 
 	}
